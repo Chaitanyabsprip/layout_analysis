@@ -3,8 +3,8 @@ typedef CountMap = Map<String, int>;
 
 typedef PercentMap = Map<String, double>;
 
-class Analyser {
-  Analyser(this.corpus);
+class Frequency {
+  Frequency(this.corpus);
 
   final String corpus;
 
