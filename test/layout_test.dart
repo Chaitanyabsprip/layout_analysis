@@ -55,7 +55,7 @@ void main() {
         Layout([
           ['a'],
         ]).sfb,
-        equals(['']),
+        listEquals(['']),
       );
     });
 
@@ -65,7 +65,7 @@ void main() {
           ['a'],
           ['b'],
         ]).sfb,
-        equals(['ab', 'ba']),
+        listEquals(['ab', 'ba']),
       );
     });
 
@@ -75,7 +75,7 @@ void main() {
           ['c'],
           ['v'],
         ]).sfb,
-        equals(['cv', 'vc']),
+        listEquals(['cv', 'vc']),
       );
     });
 
@@ -88,7 +88,7 @@ void main() {
           ['v'],
           ['x'],
         ]).sfb,
-        equals(['cv', 'vc', 'vx', 'xv', 'cx', 'xc']),
+        listEquals(['cv', 'vc', 'vx', 'xv', 'cx', 'xc']),
       );
     });
   });

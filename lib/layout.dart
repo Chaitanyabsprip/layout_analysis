@@ -29,6 +29,8 @@ class Layout {
         }
       }
     }
+    possibleSfbs
+        .removeWhere((element) => element.split('').toSet().length == 1);
     return possibleSfbs.toSet().toList();
   }
 }
