@@ -91,5 +91,32 @@ void main() {
         listEquals(['cv', 'vc', 'vx', 'xv', 'cx', 'xc']),
       );
     });
+
+    test(
+        'when input is [[a, b], [c, d], [e, f]], output should be '
+        '["ac", "ca", "ae", "ea", "ce", "ec", '
+        '"bd", "db", "bf", "fb", "df", "fd"]', () {
+      expect(
+        Layout([
+          ['a', 'b'],
+          ['c', 'd'],
+          ['e', 'f'],
+        ]).sfb,
+        listEquals([
+          'ac',
+          'ca',
+          'ae',
+          'ea',
+          'ce',
+          'ec',
+          'bd',
+          'db',
+          'bf',
+          'fb',
+          'df',
+          'fd'
+        ]),
+      );
+    });
   });
 }
