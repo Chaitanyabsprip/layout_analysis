@@ -1,4 +1,4 @@
-import 'package:character_frequency_analysis/keymap.dart';
+import 'package:character_frequency_analysis/layout.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
