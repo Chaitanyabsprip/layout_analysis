@@ -1,14 +1,14 @@
 const garbage = '   ';
 typedef CountMap = Map<String, int>;
 
-typedef PercentMap = Map<String, double>;
+typedef NormalisedMap = Map<String, double>;
 
 class Frequency {
   Frequency(this.corpus);
 
   final String corpus;
 
-  Map<String, int> ngramCount(int n) {
+  CountMap ngramCount(int n) {
     if (corpus.isEmpty) return {};
     final ngrams = <String, int>{};
     final chars = corpus.trim().split('');
@@ -22,7 +22,7 @@ class Frequency {
       );
   }
 
-  Map<String, double> ngramNormalised(int n) {
+  NormalisedMap ngramNormalised(int n) {
     if (corpus.isEmpty) return {};
     final ngrams = ngramCount(n);
     if (ngrams.isEmpty) return {};
