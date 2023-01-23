@@ -1,5 +1,5 @@
 import 'frequency.dart';
-import 'layout.dart';
+import 'keymap.dart';
 
 class Analysis {
   Analysis(this.layout, this.frequency);
@@ -8,7 +8,7 @@ class Analysis {
   final Frequency frequency;
 
   double get sfbRating {
-    if (layout.layout.length < 2) return 0;
+    if (layout.keymap.length < 2) return 0;
     final ngramNormalised = frequency.ngramNormalised(2);
     return layout.sfb.fold(
       0,

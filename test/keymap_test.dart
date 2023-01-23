@@ -1,4 +1,4 @@
-import 'package:character_frequency_analysis/layout.dart';
+import 'package:character_frequency_analysis/keymap.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -118,5 +118,94 @@ void main() {
         ]),
       );
     });
+  });
+
+  group('get left hand keymaps', () {
+    test('when the input is [[a, b], [c, d]], output should be [[a], [c]]', () {
+      final keymap = Layout([
+        ['a', 'b'],
+        ['c', 'd']
+      ]);
+      expect(
+        keymap.left,
+        equals([
+          ['a'],
+          ['c']
+        ]),
+      );
+    });
+
+    test(
+        'when the input is [[a, b, c, d], [e, f, g, h]], '
+        'output should be [[a, b], [e, f]]', () {
+      final keymap = Layout([
+        ['a', 'b', 'c', 'd'],
+        ['e', 'f', 'g', 'h']
+      ]);
+      expect(
+        keymap.left,
+        equals([
+          ['a', 'b'],
+          ['e', 'f']
+        ]),
+      );
+    });
+  });
+
+  group('get right hand keymaps', () {
+    test('when the input is [[a, b], [c, d]], output should be [[a], [c]]', () {
+      final keymap = Layout([
+        ['a', 'b'],
+        ['c', 'd']
+      ]);
+      expect(
+        keymap.right,
+        equals([
+          ['b'],
+          ['d']
+        ]),
+      );
+    });
+
+    test(
+        'when the input is [[a, b, c, d], [e, f, g, h]], '
+        'output should be [[a, b], [e, f]]', () {
+      final keymap = Layout([
+        ['a', 'b', 'c', 'd'],
+        ['e', 'f', 'g', 'h']
+      ]);
+      expect(
+        keymap.right,
+        equals([
+          ['c', 'd'],
+          ['g', 'h']
+        ]),
+      );
+    });
+  });
+
+  group('get inroll bigrams', () {
+    test('when input is [[a], [b]], output should be []', () {
+      final keymap = Layout([
+        ['a'],
+        ['b']
+      ]);
+      expect(keymap.inrolls, equals([]));
+    });
+
+    test(
+      'when input is [[a, b, c, d], [e, f, g, h]], output should be '
+      '[ab, af, ef, eb, dc, dg, hg, hc]',
+      () {
+        final keymap = Layout([
+          ['a', 'b', 'c', 'd'],
+          ['e', 'f', 'g', 'h']
+        ]);
+        expect(
+          keymap.inrolls,
+          equals(['ab', 'ef', 'dc', 'hg']),
+        );
+      },
+    );
   });
 }

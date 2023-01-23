@@ -12,13 +12,14 @@ class _ListEquals extends Matcher {
 
   @override
   Description describe(Description description) {
-    return description.add('The two lists are identical');
+    return description.add('$expected');
   }
 
   @override
   bool matches(Object? actual, _) {
-    return actual is List &&
-        actual.length == expected.length &&
-        actual.every(expected.contains);
+    return equals(expected).matches(actual, _) ||
+        actual is List &&
+            actual.length == expected.length &&
+            actual.every(expected.contains);
   }
 }

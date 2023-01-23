@@ -1,6 +1,6 @@
 import 'package:character_frequency_analysis/analysis.dart';
 import 'package:character_frequency_analysis/frequency.dart';
-import 'package:character_frequency_analysis/layout.dart';
+import 'package:character_frequency_analysis/keymap.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -20,7 +20,7 @@ void main() {
         expect(analysis.sfbRating, 0);
       });
 
-      test('layout is [[a], [b]], output should be 0.33', () {
+      test('layout is [[a], [b]], output should be 0.5', () {
         final analysis = Analysis(
           Layout([
             ['a'],
@@ -28,7 +28,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.sfbRating, 1 / 3);
+        expect(analysis.sfbRating, 0.5);
       });
 
       test('layout is [[a], [b], [c]], output should be 1', () {
