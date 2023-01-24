@@ -208,4 +208,29 @@ void main() {
       },
     );
   });
+
+  group('get outroll bigrams', () {
+    test('when input is [[a], [b]], output should be []', () {
+      final keymap = Layout([
+        ['a'],
+        ['b']
+      ]);
+      expect(keymap.outrolls, equals([]));
+    });
+
+    test(
+      'when input is [[a, b, c, d], [e, f, g, h]], output should be '
+      '[ba, fe, cd, gh]',
+      () {
+        final keymap = Layout([
+          ['a', 'b', 'c', 'd'],
+          ['e', 'f', 'g', 'h']
+        ]);
+        expect(
+          keymap.outrolls,
+          equals(['ba', 'fe', 'cd', 'gh']),
+        );
+      },
+    );
+  });
 }

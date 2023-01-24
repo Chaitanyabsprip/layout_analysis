@@ -16,6 +16,24 @@ class Layout {
   }
   final Matrix<String> keymap;
 
+  List<String> get outrolls {
+    final leftHandOutrolls =
+        left.fold<List<String>>([], (possibleOutrolls, row) {
+      for (var i = 0; i < row.length - 1; i++) {
+        possibleOutrolls.add(row.sublist(i, i + 2).reversed.join());
+      }
+      return possibleOutrolls;
+    });
+    final rightHandOutrolls =
+        right.fold<List<String>>([], (possibleOutrolls, row) {
+      for (var i = 0; i < row.length - 1; i++) {
+        possibleOutrolls.add(row.sublist(i, i + 2).join());
+      }
+      return possibleOutrolls;
+    });
+    return leftHandOutrolls..addAll(rightHandOutrolls);
+  }
+
   List<String> get inrolls {
     final leftHandInrolls = left.fold<List<String>>([], (possibleInrolls, row) {
       for (var i = 0; i < row.length - 1; i++) {
