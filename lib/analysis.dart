@@ -11,7 +11,7 @@ class Analysis {
 
   Matrix<String> get _keymap => _layout.keymap;
 
-  double get effortScore {
+  double get effortRating {
     final ngramNormalised = frequency.ngramNormalised(1);
     final effortMatrix = config.effortMatrix;
     var score = 0.0;
@@ -25,9 +25,9 @@ class Analysis {
   }
 
   double get outrollRating {
-    if (_layout.keymap.first.length < 2) return 0;
+    if (_keymap.first.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;
-    return _layout.inrolls.fold(
+    return _layout.outrolls.fold(
       0,
       (rating, bigram) => (ngramNormalised[bigram] ?? 0) + rating,
     );

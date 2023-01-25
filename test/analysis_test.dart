@@ -157,13 +157,13 @@ void main() {
       });
 
       test(
-          'when input layout is [["l", "m" "n", "o"], ["p", "q", "s", "t"]],'
+          'when input layout is [["m", "l" "n", "o"], ["q", "p", "r", "s"]],'
           ' output should be 0.4', () {
         print(frequency.ngramNormalised(2));
         final analysis = Analysis(
           getConfigFrom([
-            ['l', 'm', 'o', 'n'],
-            ['p', 'q', 's', 'r']
+            ['m', 'l', 'n', 'o'],
+            ['q', 'p', 'r', 's']
           ]),
           frequency,
         );
@@ -172,7 +172,7 @@ void main() {
     });
   });
 
-  group('get effort score', () {
+  group('get effort rating', () {
     group('when corpus is "abcdefghg', () {
       final frequency = Frequency('abcdefgg');
 
@@ -189,7 +189,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.effortScore, 0.125);
+        expect(analysis.effortRating, 0.125);
       });
 
       test(
@@ -205,7 +205,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.effortScore, 0.25);
+        expect(analysis.effortRating, 0.25);
       });
 
       test(
@@ -221,7 +221,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.effortScore, 0.25);
+        expect(analysis.effortRating, 0.25);
       });
 
       test(
@@ -237,7 +237,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.effortScore, 0.25);
+        expect(analysis.effortRating, 0.25);
       });
 
       test(
@@ -256,7 +256,7 @@ void main() {
           ]),
           frequency,
         );
-        expect(analysis.effortScore, 0.25);
+        expect(analysis.effortRating, 0.25);
       });
     });
   });
