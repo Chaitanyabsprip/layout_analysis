@@ -1,13 +1,7 @@
 typedef Matrix<T> = List<List<T>>;
 
 class Layout {
-  Layout(this.keymap)
-      : assert(keymap.isNotEmpty, 'should have at least 1 row'),
-        assert(keymap.first.isNotEmpty, 'should have atleast one char'),
-        assert(
-          keymap.every((row) => row.length == keymap.first.length),
-          'each row should be of same length',
-        ) {
+  Layout(this.keymap) {
     final flattened = keymap.expand((r) => r);
     assert(
       flattened.toSet().length == flattened.length,

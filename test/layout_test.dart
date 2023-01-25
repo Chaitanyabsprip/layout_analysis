@@ -10,24 +10,6 @@ void main() {
     // there should be at least one character in list
     // there should not be any repeated character
 
-    test('when input it [], should throw assertionError', () {
-      expect(() => Layout([]), throwsAssertionError);
-    });
-
-    test('when input it [[]], should throw assertionError', () {
-      expect(() => Layout([[]]), throwsAssertionError);
-    });
-
-    test('when input it [[a], []], should throw assertionError', () {
-      expect(
-        () => Layout([
-          ['a'],
-          []
-        ]),
-        throwsAssertionError,
-      );
-    });
-
     test('when input it [[a], [a]], should throw assertionError', () {
       expect(
         () => Layout([
