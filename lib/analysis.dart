@@ -1,25 +1,42 @@
+import 'config.dart';
 import 'frequency.dart';
 import 'layout.dart';
 
 class Analysis {
-  Analysis(this.layout, this.frequency);
+  Analysis(this.config, this.frequency) : _layout = Layout(config.keymap);
 
-  final Layout layout;
+  final Config config;
   final Frequency frequency;
+  final Layout _layout;
+
+  Matrix<String> get _keymap => _layout.keymap;
+
+  double get effortScore {
+    final ngramNormalised = frequency.ngramNormalised(1);
+    final effortMatrix = config.effortMatrix;
+    var score = 0.0;
+    for (var i = 0; i < _keymap.length; i++) {
+      for (var j = 0; j < _keymap.first.length; j++) {
+        score += effortMatrix[i][j] * (ngramNormalised[_keymap[i][j]] ?? 1);
+      }
+    }
+
+    return score;
+  }
 
   double get outrollRating {
-    if (layout.keymap.first.length < 2) return 0;
+    if (_layout.keymap.first.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;
-    return layout.inrolls.fold(
+    return _layout.inrolls.fold(
       0,
       (rating, bigram) => (ngramNormalised[bigram] ?? 0) + rating,
     );
   }
 
   double get inrollRating {
-    if (layout.keymap.first.length < 2) return 0;
+    if (_keymap.first.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;
-    return layout.inrolls.fold(
+    return _layout.inrolls.fold(
       0,
       (rating, bigram) => (ngramNormalised[bigram] ?? 0) + rating,
     );
@@ -28,9 +45,9 @@ class Analysis {
   NormalisedMap get _ngramNormalised2 => frequency.ngramNormalised(2);
 
   double get sfbRating {
-    if (layout.keymap.length < 2) return 0;
+    if (_keymap.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;
-    return layout.sfb.fold(
+    return _layout.sfb.fold(
       0,
       (rating, sfb) => (ngramNormalised[sfb] ?? 0) + rating,
     );
