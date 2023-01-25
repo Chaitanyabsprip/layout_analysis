@@ -31,7 +31,8 @@ class Config {
               _hasConsistenColumns(fingerMap) &&
               _hasConsistenColumns(keymap),
           'all rows must have same length',
-        );
+        ),
+        assert(effortMatrix.first.first >= 1, 'should be greater than 1');
 
   Matrix<double> effortMatrix;
   Matrix<String> keymap;

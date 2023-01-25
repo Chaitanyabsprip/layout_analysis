@@ -68,7 +68,7 @@ void main() {
             ['b']
           ],
           [
-            [0],
+            [1],
             []
           ],
           [
@@ -83,7 +83,7 @@ void main() {
     test(
         'when layout is [[a], [b]], effort matrix is [[0], [0]], '
         'and finger map is [[0], [0]] '
-        'should throw assertionError', () {
+        'should return normally', () {
       expect(
         () => Config(
           [
@@ -91,16 +91,69 @@ void main() {
             ['b']
           ],
           [
-            [0],
-            [0]
+            [1],
+            [1]
           ],
           [
             [0],
-            [0]
+            [1]
           ],
         ),
         returnsNormally,
       );
+    });
+
+    group('effort matrix must not contain values less than 1', () {
+      test('when effort matrix is [[0]], throw assertionError', () {
+        expect(
+          () => Config(
+            [
+              ['a'],
+            ],
+            [
+              [0],
+            ],
+            [
+              [0],
+            ],
+          ),
+          throwsAssertionError,
+        );
+      });
+
+      test('when effort matrix is [[0.9]], throw assertionError', () {
+        expect(
+          () => Config(
+            [
+              ['a'],
+            ],
+            [
+              [0.9],
+            ],
+            [
+              [0],
+            ],
+          ),
+          throwsAssertionError,
+        );
+      });
+
+      test('when effort matrix is [[1.3]], should return normally', () {
+        expect(
+          () => Config(
+            [
+              ['a'],
+            ],
+            [
+              [1.9],
+            ],
+            [
+              [0],
+            ],
+          ),
+          returnsNormally,
+        );
+      });
     });
   });
 }
