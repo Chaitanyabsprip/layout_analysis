@@ -103,4 +103,63 @@ void main() {
       });
     });
   });
+
+  group('get outroll statistic', () {
+    group('when corpus is "abcdefghi"', () {
+      final frequency = Frequency('lmnopqrstuv');
+      print(frequency.ngramNormalised(2));
+
+      test('when input layout is [["l"], ["p"]], output should be 0', () {
+        final analysis = Analysis(
+          Layout([
+            ['l'],
+            ['p']
+          ]),
+          frequency,
+        );
+        expect(analysis.outrollRating, 0);
+      });
+
+      test(
+          'when input layout is [["l", "m"], ["p", "q"]],'
+          ' output should be 0', () {
+        final analysis = Analysis(
+          Layout([
+            ['l', 'm'],
+            ['p', 'q']
+          ]),
+          frequency,
+        );
+        expect(analysis.outrollRating, 0);
+      });
+
+      test(
+          'when input layout is [["l", "m" "n", "o"], ["p", "q", "r", "s"]],'
+          ' output should be 0.2', () {
+        print(frequency.ngramNormalised(2));
+        final analysis = Analysis(
+          Layout([
+            ['l', 'm', 'n', 'o'],
+            ['p', 'q', 'r', 's']
+          ]),
+          frequency,
+        );
+        expect(analysis.outrollRating, 0.2);
+      });
+
+      test(
+          'when input layout is [["l", "m" "n", "o"], ["p", "q", "s", "t"]],'
+          ' output should be 0.4', () {
+        print(frequency.ngramNormalised(2));
+        final analysis = Analysis(
+          Layout([
+            ['l', 'm', 'o', 'n'],
+            ['p', 'q', 's', 'r']
+          ]),
+          frequency,
+        );
+        expect(analysis.outrollRating, 0.4);
+      });
+    });
+  });
 }

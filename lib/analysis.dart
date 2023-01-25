@@ -7,6 +7,15 @@ class Analysis {
   final Layout layout;
   final Frequency frequency;
 
+  double get outrollRating {
+    if (layout.keymap.first.length < 2) return 0;
+    final ngramNormalised = _ngramNormalised2;
+    return layout.inrolls.fold(
+      0,
+      (rating, bigram) => (ngramNormalised[bigram] ?? 0) + rating,
+    );
+  }
+
   double get inrollRating {
     if (layout.keymap.first.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;
