@@ -121,6 +121,43 @@ void main() {
         );
       });
 
+      test('when effort matrix is [[1, 0]], throw assertionError', () {
+        expect(
+          () => Config(
+            [
+              ['a', 'b'],
+            ],
+            [
+              [1, 0],
+            ],
+            [
+              [0, 0],
+            ],
+          ),
+          throwsAssertionError,
+        );
+      });
+
+      test('when effort matrix is [[1], [0]], throw assertionError', () {
+        expect(
+          () => Config(
+            [
+              ['a'],
+              ['b'],
+            ],
+            [
+              [1],
+              [0],
+            ],
+            [
+              [0],
+              [0],
+            ],
+          ),
+          throwsAssertionError,
+        );
+      });
+
       test('when effort matrix is [[0.9]], throw assertionError', () {
         expect(
           () => Config(
@@ -152,6 +189,63 @@ void main() {
             ],
           ),
           returnsNormally,
+        );
+      });
+    });
+
+    group('finger map must be > 1', () {
+      test('when finger map is [[-1]], should throw assertionError', () {
+        expect(
+          () => Config([
+            ['a']
+          ], [
+            [1]
+          ], [
+            [-1]
+          ]),
+          throwsAssertionError,
+        );
+      });
+
+      test('when finger map is [[0]], should return normally', () {
+        expect(
+          () => Config([
+            ['a']
+          ], [
+            [1]
+          ], [
+            [0]
+          ]),
+          returnsNormally,
+        );
+      });
+
+      test('when finger map is [[1], [-1]], should throw assertionError', () {
+        expect(
+          () => Config([
+            ['a'],
+            ['a']
+          ], [
+            [1],
+            [1],
+          ], [
+            [1],
+            [-1]
+          ]),
+          throwsAssertionError,
+        );
+      });
+
+      test('when finger map is [[1, -1]], should throw assertionError', () {
+        expect(
+          () => Config([
+            ['a', 'b'],
+          ], [
+            [1, 1],
+          ], [
+            [1, -1]
+          ]),
+          throwsAssertionError,
         );
       });
     });
