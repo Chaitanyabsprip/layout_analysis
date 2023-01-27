@@ -15,6 +15,9 @@ void main() {
         () => Layout([
           ['a'],
           ['a'],
+        ], [
+          [0],
+          [0],
         ]),
         throwsAssertionError,
       );
@@ -25,27 +28,155 @@ void main() {
         () => Layout([
           ['a'],
           ['b'],
+        ], [
+          [0],
+          [0],
         ]),
         returnsNormally,
       );
     });
   });
 
-  group('get sfb', () {
-    test('when input is [[]], output should be ""', () {
+  group('get fingerKeyMap', () {
+    test(
+        'when layout is [[a]], fingerIdMap is [[0]], '
+        'output should be {0: [a]}', () {
+      expect(
+        Layout([
+          ['a']
+        ], [
+          [0]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a']
+        }),
+      );
+    });
+
+    test(
+        'when layout is [[a, b]], fingerIdMap is [[0, 0]], '
+        'output should be {0: [a, b]}', () {
+      expect(
+        Layout([
+          ['a', 'b']
+        ], [
+          [0, 0]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a', 'b']
+        }),
+      );
+    });
+
+    test(
+        'when layout is [[a, b]], fingerIdMap is [[0, 1]], '
+        'output should be {0: [a], 1: [1]}', () {
+      expect(
+        Layout([
+          ['a', 'b']
+        ], [
+          [0, 1]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a'],
+          1: ['b']
+        }),
+      );
+    });
+
+    test(
+        'when layout is [[a], [b]], fingerIdMap is [[0], [0]], '
+        'output should be {0: [a, b]}', () {
       expect(
         Layout([
           ['a'],
-        ]).sfb,
+          ['b']
+        ], [
+          [0],
+          [0]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a', 'b'],
+        }),
+      );
+    });
+
+    test(
+        'when layout is [[a], [b]], fingerIdMap is [[0], [1]], '
+        'output should be {0: [a], 1: [b]}', () {
+      expect(
+        Layout([
+          ['a'],
+          ['b']
+        ], [
+          [0],
+          [1]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a'],
+          1: ['b'],
+        }),
+      );
+    });
+
+    test(
+        'when layout is [[a, b], [c, d]], fingerIdMap is [[0, 1], [0, 1]], '
+        'output should be {0: [a, c], 1: [b, d]}', () {
+      expect(
+        Layout([
+          ['a', 'b'],
+          ['c', 'd']
+        ], [
+          [0, 1],
+          [0, 1]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a', 'c'],
+          1: ['b', 'd'],
+        }),
+      );
+    });
+  });
+
+  group('get sfb', () {
+    test(
+        'when layout is [[a]], fingerIdMap is [[0]], '
+        'output should be {0: [a]}', () {
+      expect(
+        Layout([
+          ['a']
+        ], [
+          [0]
+        ]).fingerKeyMap,
+        equals({
+          0: ['a']
+        }),
+      );
+    });
+    test('when layout is [[a]], fingerIdMap is [[0]], output should be ""', () {
+      expect(
+        Layout(
+          [
+            ['a'],
+          ],
+          [
+            [0]
+          ],
+        ).sfb,
         listEquals(['']),
       );
     });
 
-    test('when input is [[a], [b]], output should be ["ab", "ba"]', () {
+    test(
+        'when layout is [[a], [b]], fingerIdMap is [[0], [0]], '
+        'output should be ["ab", "ba"]', () {
       expect(
         Layout([
           ['a'],
           ['b'],
+        ], [
+          [0],
+          [0]
         ]).sfb,
         listEquals(['ab', 'ba']),
       );
@@ -53,10 +184,16 @@ void main() {
 
     test('when input is [[c], [v]], output should be ["cv", "vc"]', () {
       expect(
-        Layout([
-          ['c'],
-          ['v'],
-        ]).sfb,
+        Layout(
+          [
+            ['c'],
+            ['v'],
+          ],
+          [
+            [0],
+            [0]
+          ],
+        ).sfb,
         listEquals(['cv', 'vc']),
       );
     });
@@ -65,11 +202,18 @@ void main() {
         'when input is [[c], [v], [x]], output should be '
         '["cv", "vc", "vx", "xv", "cx", "xc"]', () {
       expect(
-        Layout([
-          ['c'],
-          ['v'],
-          ['x'],
-        ]).sfb,
+        Layout(
+          [
+            ['c'],
+            ['v'],
+            ['x'],
+          ],
+          [
+            [0],
+            [0],
+            [0]
+          ],
+        ).sfb,
         listEquals(['cv', 'vc', 'vx', 'xv', 'cx', 'xc']),
       );
     });
@@ -83,6 +227,10 @@ void main() {
           ['a', 'b'],
           ['c', 'd'],
           ['e', 'f'],
+        ], [
+          [0, 1],
+          [0, 1],
+          [0, 1],
         ]).sfb,
         listEquals([
           'ac',
@@ -100,6 +248,35 @@ void main() {
         ]),
       );
     });
+
+    test(
+        'when layout is [[a, b], [c, d]], fingerIdMap is [[1, 1], [1, 1]] '
+        'output should be [ac, ca, bd, db, ad, ab, da, ba, bc, cb, cd, dc]',
+        () {
+      expect(
+        Layout([
+          ['a', 'b'],
+          ['c', 'd'],
+        ], [
+          [1, 1],
+          [1, 1],
+        ]).sfb,
+        listEquals([
+          'ab',
+          'ac',
+          'ad',
+          'ba',
+          'bc',
+          'bd',
+          'ca',
+          'cb',
+          'cd',
+          'da',
+          'db',
+          'dc',
+        ]),
+      );
+    });
   });
 
   group('get left hand keymaps', () {
@@ -107,6 +284,9 @@ void main() {
       final keymap = Layout([
         ['a', 'b'],
         ['c', 'd']
+      ], [
+        [0, 1],
+        [0, 1]
       ]);
       expect(
         keymap.left,
@@ -123,6 +303,9 @@ void main() {
       final keymap = Layout([
         ['a', 'b', 'c', 'd'],
         ['e', 'f', 'g', 'h']
+      ], [
+        [0, 1, 2, 3],
+        [0, 1, 2, 3]
       ]);
       expect(
         keymap.left,
@@ -139,6 +322,9 @@ void main() {
       final keymap = Layout([
         ['a', 'b'],
         ['c', 'd']
+      ], [
+        [0, 1],
+        [0, 1],
       ]);
       expect(
         keymap.right,
@@ -155,6 +341,9 @@ void main() {
       final keymap = Layout([
         ['a', 'b', 'c', 'd'],
         ['e', 'f', 'g', 'h']
+      ], [
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
       ]);
       expect(
         keymap.right,
@@ -171,6 +360,9 @@ void main() {
       final keymap = Layout([
         ['a'],
         ['b']
+      ], [
+        [0, 1],
+        [0, 1],
       ]);
       expect(keymap.inrolls, equals([]));
     });
@@ -182,6 +374,9 @@ void main() {
         final keymap = Layout([
           ['a', 'b', 'c', 'd'],
           ['e', 'f', 'g', 'h']
+        ], [
+          [0, 1, 2, 3],
+          [0, 1, 2, 3],
         ]);
         expect(
           keymap.inrolls,
@@ -196,6 +391,9 @@ void main() {
       final keymap = Layout([
         ['a'],
         ['b']
+      ], [
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
       ]);
       expect(keymap.outrolls, equals([]));
     });
@@ -207,6 +405,9 @@ void main() {
         final keymap = Layout([
           ['a', 'b', 'c', 'd'],
           ['e', 'f', 'g', 'h']
+        ], [
+          [0, 1, 2, 3],
+          [0, 1, 2, 3],
         ]);
         expect(
           keymap.outrolls,
