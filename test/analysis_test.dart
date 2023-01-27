@@ -86,7 +86,6 @@ void main() {
       test(
           'when input layout is [["a", "b" "c", "d"], ["e", "f", "g", "h"]],'
           ' output should be 0.25', () {
-        print(frequency.ngramNormalised(2));
         final analysis = Analysis(
           getConfigFrom([
             ['a', 'b', 'c', 'd'],
@@ -100,7 +99,6 @@ void main() {
       test(
           'when input layout is [["a", "b" "d", "c"], ["e", "f", "h", "g"]],'
           ' output should be 0.5', () {
-        print(frequency.ngramNormalised(2));
         final analysis = Analysis(
           getConfigFrom([
             ['a', 'b', 'd', 'c'],
@@ -116,7 +114,6 @@ void main() {
   group('get outroll statistic', () {
     group('when corpus is "lmnopqrstuv"', () {
       final frequency = Frequency('lmnopqrstuv');
-      print(frequency.ngramNormalised(2));
 
       test('when input layout is [["l"], ["p"]], output should be 0', () {
         final analysis = Analysis(
@@ -145,7 +142,6 @@ void main() {
       test(
           'when input layout is [["l", "m" "n", "o"], ["p", "q", "r", "s"]],'
           ' output should be 0.2', () {
-        print(frequency.ngramNormalised(2));
         final analysis = Analysis(
           getConfigFrom([
             ['l', 'm', 'n', 'o'],
@@ -159,7 +155,6 @@ void main() {
       test(
           'when input layout is [["m", "l" "n", "o"], ["q", "p", "r", "s"]],'
           ' output should be 0.4', () {
-        print(frequency.ngramNormalised(2));
         final analysis = Analysis(
           getConfigFrom([
             ['m', 'l', 'n', 'o'],
@@ -258,6 +253,125 @@ void main() {
         );
         expect(analysis.effortRating, 0.25);
       });
+    });
+  });
+
+  group('get finger effort', () {
+    group('when corpus is "abcdefgg', () {
+      final frequency = Frequency('abcdefgg');
+      test(
+        'when effortMatrix is [[1]], finger map is [[0]], layout is [[a]] '
+        'output should be {0: 0.125}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a']
+            ], [
+              [1]
+            ], [
+              [0]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.125}));
+        },
+      );
+
+      test(
+        'when effortMatrix is [[1, 1]], finger map is [[0, 1]], '
+        'layout is [[a, b]], output should be {0: 0.125, 1: 0.125}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b']
+            ], [
+              [1, 1]
+            ], [
+              [0, 1]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.125, 1: 0.125}));
+        },
+      );
+
+      test(
+        'when effortMatrix is [[1, 1]], finger map is [[0, 0]], '
+        'layout is [[a, b]], output should be {0: 0.25}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b']
+            ], [
+              [1, 1]
+            ], [
+              [0, 0]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.25}));
+        },
+      );
+
+      test(
+        'when effortMatrix is [[1]], finger map is [[0]], '
+        'layout is [[g]], output should be {0: 0.25}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['g']
+            ], [
+              [1]
+            ], [
+              [0]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.25}));
+        },
+      );
+
+      test(
+        'when effortMatrix is [[1], [1]], finger map is [[0], [0]], '
+        'layout is [[f], [g]], output should be {0: 0.375}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['f'],
+              ['g']
+            ], [
+              [1],
+              [1]
+            ], [
+              [0],
+              [0]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.375}));
+        },
+      );
+
+      test(
+        'when effortMatrix is [[1], [2]], finger map is [[0], [1]], '
+        'layout is [[f], [g]], output should be {0: 0.125, 1:0.5}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['f'],
+              ['g']
+            ], [
+              [1],
+              [2]
+            ], [
+              [0],
+              [1]
+            ]),
+            frequency,
+          );
+          expect(analysis.fingerEffort, equals({0: 0.125, 1: 0.5}));
+        },
+      );
     });
   });
 }
