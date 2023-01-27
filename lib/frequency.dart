@@ -8,7 +8,17 @@ class Frequency {
 
   final String corpus;
 
+  final CountMap _ngramCount1 = {};
+  final CountMap _ngramCount2 = {};
+
   CountMap ngramCount(int n) {
+    if (n == 1 && _ngramCount1.isNotEmpty) {
+      return _ngramCount1;
+    }
+    if (n == 2 && _ngramCount2.isNotEmpty) {
+      return _ngramCount2;
+    }
+
     if (corpus.isEmpty) return {};
     final ngrams = <String, int>{};
     final chars = corpus.trim().split('');
@@ -16,10 +26,20 @@ class Frequency {
       final ngram = chars.sublist(i, i + n).join();
       ngrams[ngram] = (ngrams[ngram] ?? 0) + 1;
     }
-    return ngrams
-      ..removeWhere(
-        (k, v) => k.contains(' ') || k.contains('\n') || k.contains('\t'),
-      );
+    ngrams.removeWhere(
+      (k, v) => k.contains(' ') || k.contains('\n') || k.contains('\t'),
+    );
+    if (n == 1) {
+      _ngramCount1
+        ..clear()
+        ..addAll(ngrams);
+    }
+    if (n == 2) {
+      _ngramCount2
+        ..clear()
+        ..addAll(ngrams);
+    }
+    return ngrams;
   }
 
   NormalisedMap ngramNormalised(int n) {
