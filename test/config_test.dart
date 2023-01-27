@@ -102,152 +102,209 @@ void main() {
         returnsNormally,
       );
     });
+  });
 
-    group('effort matrix must not contain values less than 1', () {
-      test('when effort matrix is [[0]], throw assertionError', () {
-        expect(
-          () => Config(
-            [
-              ['a'],
-            ],
-            [
-              [0],
-            ],
-            [
-              [0],
-            ],
-          ),
-          throwsAssertionError,
-        );
-      });
-
-      test('when effort matrix is [[1, 0]], throw assertionError', () {
-        expect(
-          () => Config(
-            [
-              ['a', 'b'],
-            ],
-            [
-              [1, 0],
-            ],
-            [
-              [0, 0],
-            ],
-          ),
-          throwsAssertionError,
-        );
-      });
-
-      test('when effort matrix is [[1], [0]], throw assertionError', () {
-        expect(
-          () => Config(
-            [
-              ['a'],
-              ['b'],
-            ],
-            [
-              [1],
-              [0],
-            ],
-            [
-              [0],
-              [0],
-            ],
-          ),
-          throwsAssertionError,
-        );
-      });
-
-      test('when effort matrix is [[0.9]], throw assertionError', () {
-        expect(
-          () => Config(
-            [
-              ['a'],
-            ],
-            [
-              [0.9],
-            ],
-            [
-              [0],
-            ],
-          ),
-          throwsAssertionError,
-        );
-      });
-
-      test('when effort matrix is [[1.3]], should return normally', () {
-        expect(
-          () => Config(
-            [
-              ['a'],
-            ],
-            [
-              [1.9],
-            ],
-            [
-              [0],
-            ],
-          ),
-          returnsNormally,
-        );
-      });
+  group('effort matrix must not contain values less than 1', () {
+    test('when effort matrix is [[0]], throw assertionError', () {
+      expect(
+        () => Config(
+          [
+            ['a'],
+          ],
+          [
+            [0],
+          ],
+          [
+            [0],
+          ],
+        ),
+        throwsAssertionError,
+      );
     });
 
-    group('finger map must be > 1', () {
-      test('when finger map is [[-1]], should throw assertionError', () {
-        expect(
-          () => Config([
-            ['a']
-          ], [
-            [1]
-          ], [
-            [-1]
-          ]),
-          throwsAssertionError,
-        );
-      });
-
-      test('when finger map is [[0]], should return normally', () {
-        expect(
-          () => Config([
-            ['a']
-          ], [
-            [1]
-          ], [
-            [0]
-          ]),
-          returnsNormally,
-        );
-      });
-
-      test('when finger map is [[1], [-1]], should throw assertionError', () {
-        expect(
-          () => Config([
-            ['a'],
-            ['a']
-          ], [
-            [1],
-            [1],
-          ], [
-            [1],
-            [-1]
-          ]),
-          throwsAssertionError,
-        );
-      });
-
-      test('when finger map is [[1, -1]], should throw assertionError', () {
-        expect(
-          () => Config([
+    test('when effort matrix is [[1, 0]], throw assertionError', () {
+      expect(
+        () => Config(
+          [
             ['a', 'b'],
-          ], [
-            [1, 1],
-          ], [
-            [1, -1]
-          ]),
-          throwsAssertionError,
-        );
-      });
+          ],
+          [
+            [1, 0],
+          ],
+          [
+            [0, 0],
+          ],
+        ),
+        throwsAssertionError,
+      );
+    });
+
+    test('when effort matrix is [[1], [0]], throw assertionError', () {
+      expect(
+        () => Config(
+          [
+            ['a'],
+            ['b'],
+          ],
+          [
+            [1],
+            [0],
+          ],
+          [
+            [0],
+            [0],
+          ],
+        ),
+        throwsAssertionError,
+      );
+    });
+
+    test('when effort matrix is [[0.9]], throw assertionError', () {
+      expect(
+        () => Config(
+          [
+            ['a'],
+          ],
+          [
+            [0.9],
+          ],
+          [
+            [0],
+          ],
+        ),
+        throwsAssertionError,
+      );
+    });
+
+    test('when effort matrix is [[1.3]], should return normally', () {
+      expect(
+        () => Config(
+          [
+            ['a'],
+          ],
+          [
+            [1.9],
+          ],
+          [
+            [0],
+          ],
+        ),
+        returnsNormally,
+      );
+    });
+  });
+
+  group('finger map must be > 1', () {
+    test('when finger map is [[-1]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a']
+        ], [
+          [1]
+        ], [
+          [-1]
+        ]),
+        throwsAssertionError,
+      );
+    });
+
+    test('when finger map is [[0]], should return normally', () {
+      expect(
+        () => Config([
+          ['a']
+        ], [
+          [1]
+        ], [
+          [0]
+        ]),
+        returnsNormally,
+      );
+    });
+
+    test('when finger map is [[1], [-1]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a'],
+          ['a']
+        ], [
+          [1],
+          [1],
+        ], [
+          [1],
+          [-1]
+        ]),
+        throwsAssertionError,
+      );
+    });
+
+    test('when finger map is [[1, -1]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a', 'b'],
+        ], [
+          [1, 1],
+        ], [
+          [1, -1]
+        ]),
+        throwsAssertionError,
+      );
+    });
+  });
+
+  group('finger map must be < 10', () {
+    test('when finger map is [[10]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a']
+        ], [
+          [1]
+        ], [
+          [10]
+        ]),
+        throwsAssertionError,
+      );
+    });
+
+    test('when finger map is [[9]], should return normally', () {
+      expect(
+        () => Config([
+          ['a']
+        ], [
+          [1]
+        ], [
+          [9]
+        ]),
+        returnsNormally,
+      );
+    });
+
+    test('when finger map is [[1], [10]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a'],
+          ['a']
+        ], [
+          [1],
+          [1],
+        ], [
+          [1],
+          [10]
+        ]),
+        throwsAssertionError,
+      );
+    });
+
+    test('when finger map is [[1, 10]], should throw assertionError', () {
+      expect(
+        () => Config([
+          ['a', 'b'],
+        ], [
+          [1, 1],
+        ], [
+          [1, 10]
+        ]),
+        throwsAssertionError,
+      );
     });
   });
 }

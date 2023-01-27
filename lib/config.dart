@@ -39,6 +39,10 @@ class Config {
         assert(
           fingerMap.every((row) => row.every((e) => e > -1)),
           'finger map value should be a natural number',
+        ),
+        assert(
+          fingerMap.every((row) => row.every((e) => e < 10)),
+          'finger map values should be < 10',
         );
 
   Matrix<double> effortMatrix;
