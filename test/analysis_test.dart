@@ -374,4 +374,95 @@ void main() {
       );
     });
   });
+
+  group('get character repeat effort', () {
+    group('when corpus is "aa"', () {
+      final frequency = Frequency('aa');
+      test(
+          'and layout is [[b]], effortMatrix is [[1]], '
+          'output should be 0', () {
+        final analysis = Analysis(
+          Config([
+            ['b']
+          ], [
+            [1]
+          ], [
+            [0]
+          ]),
+          frequency,
+        );
+        expect(analysis.characterRepeatEffort, 0);
+      });
+
+      test(
+          'and layout is [[a]], effortMatrix is [[1]], '
+          'output should be 1', () {
+        final analysis = Analysis(
+          Config([
+            ['a']
+          ], [
+            [1]
+          ], [
+            [0]
+          ]),
+          frequency,
+        );
+        expect(analysis.characterRepeatEffort, 1);
+      });
+    });
+
+    group('when corpus is "aabbc"', () {
+      final frequency = Frequency('aabbc');
+      test(
+          'and layout is [[a, b]], effortMatrix is [[1, 1]], '
+          'output should be 0', () {
+        final analysis = Analysis(
+          Config([
+            ['a', 'b']
+          ], [
+            [1, 1]
+          ], [
+            [0, 0]
+          ]),
+          frequency,
+        );
+        expect(analysis.characterRepeatEffort, 0.5);
+      });
+
+      test(
+          'and layout is [[a, b]], effortMatrix is [[1, 2]], '
+          'output should be 0.75', () {
+        final analysis = Analysis(
+          Config([
+            ['a', 'b']
+          ], [
+            [1, 2]
+          ], [
+            [0, 0]
+          ]),
+          frequency,
+        );
+        expect(analysis.characterRepeatEffort, 0.75);
+      });
+
+      test(
+          'and layout is [[a], [b]], effortMatrix is [[1], [2]], '
+          'output should be 0.75', () {
+        final analysis = Analysis(
+          Config([
+            ['a'],
+            ['b']
+          ], [
+            [1],
+            [2]
+          ], [
+            [0],
+            [0]
+          ]),
+          frequency,
+        );
+        expect(analysis.characterRepeatEffort, 0.75);
+      });
+    });
+  });
 }

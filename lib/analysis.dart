@@ -55,6 +55,17 @@ class Analysis {
     );
   }
 
+  double get characterRepeatEffort {
+    var effort = 0.0;
+    for (var i = 0; i < _keymap.length; i++) {
+      for (var j = 0; j < _keymap.first.length; j++) {
+        effort += (_ngramNormalised2[_keymap[i][j] * 2] ?? 0) *
+            config.effortMatrix[i][j];
+      }
+    }
+    return effort;
+  }
+
   double get sfbRating {
     if (_keymap.length < 2) return 0;
     final ngramNormalised = _ngramNormalised2;

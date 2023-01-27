@@ -83,16 +83,6 @@ class Layout {
         }
       }
     }
-
-    // for (var i = 0; i < keymap.first.length; i++) {
-    //   for (var j = 0; j < keymap.length; j++) {
-    //     for (var k = 0; k < keymap.length; k++) {
-    //       possibleSfbs
-    //         ..add(keymap[j][i] + keymap[k][i])
-    //         ..add(keymap[k][i] + keymap[j][i]);
-    //     }
-    //   }
-    // }
     possibleSfbs
         .removeWhere((element) => element.split('').toSet().length == 1);
     return possibleSfbs.toSet().toList();
