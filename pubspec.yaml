@@ -5,7 +5,7 @@ version: 1.0.0
 # homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.18.5 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 # dependencies:
 #   path: ^1.8.0
@@ -13,4 +13,4 @@ environment:
 dev_dependencies:
   mocktail: ^0.3.0
   test: ^1.16.0
-  very_good_analysis: ^3.1.0
+  very_good_analysis: ^5.0.0

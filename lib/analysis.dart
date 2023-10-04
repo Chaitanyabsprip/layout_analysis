@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'config.dart';
 import 'frequency.dart';
 import 'layout.dart';
@@ -16,11 +18,19 @@ class Analysis {
     var score = 0.0;
     for (var i = 0; i < _keymap.length; i++) {
       for (var j = 0; j < _keymap.first.length; j++) {
-        score += effortMatrix[i][j] * (ngramNormalised[_keymap[i][j]] ?? 1);
+        score += effortMatrix[i][j] / 3 * (ngramNormalised[_keymap[i][j]] ?? 1);
       }
     }
-
     return score;
+  }
+
+  Map<String, double> get topSfb {
+    final ngramNormalised = _ngramNormalised2;
+    final sfbs = _layout.sfb.map((e) => MapEntry(e, ngramNormalised[e] ?? 0));
+    final top = sfbs.toList()
+      ..removeWhere((e) => e.value == 0)
+      ..sort((a, b) => b.value.compareTo(a.value));
+    return Map.fromEntries(top.take(10));
   }
 
   Map<int, double> get fingerEffort {
@@ -30,7 +40,7 @@ class Analysis {
         final fingerId = _fingerMap[i][j];
         final key = _keymap[i][j];
         final effortValue =
-            config.effortMatrix[i][j] * (_ngramNormalised1[key] ?? 0);
+            config.effortMatrix[i][j] / 3 * (_ngramNormalised1[key] ?? 0);
         effortMap[fingerId] = (effortMap[fingerId] ?? 0) + effortValue;
       }
     }
@@ -73,6 +83,27 @@ class Analysis {
       0,
       (rating, sfb) => (ngramNormalised[sfb] ?? 0) + rating,
     );
+  }
+
+  double t(double number) {
+    return (number * 1000).toInt() / 1000;
+  }
+
+  void prettyPrint() {
+    final keymap = config.keymap;
+    print('');
+    print(keymap.map((row) => row.join('  ')).join('\n'));
+    print('sfb: ${t(sfbRating * 100)}');
+    final topSfb = this.topSfb..updateAll((_, v) => t(v * 100));
+    print('top sfb: ${const JsonEncoder.withIndent('  ').convert(topSfb)}');
+    print('inroll: ${t(inrollRating * 100)}');
+    print('outroll: ${t(outrollRating * 100)}');
+    print('effortRating: ${t(effortRating * 100)}');
+    final fingerEffort = this.fingerEffort..updateAll((_, v) => t(v * 100));
+    final convert = const JsonEncoder.withIndent('  ')
+        .convert(fingerEffort.map((k, v) => MapEntry('$k', v)));
+    print('fingerEffort: $convert');
+    print('characterRepeatEffort: ${t(characterRepeatEffort * 100)}');
   }
 
   Matrix<int> get _fingerMap => config.fingerMap;

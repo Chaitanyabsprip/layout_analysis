@@ -76,15 +76,13 @@ class Layout {
   List<String> get sfb {
     if (keymap.length == 1) return [''];
     final possibleSfbs = <String>[];
-    for (final keys in fingerKeyMap.entries) {
-      for (var i = 0; i < keys.value.length; i++) {
-        for (var j = 0; j < keys.value.length; j++) {
-          possibleSfbs.add(keys.value[i] + keys.value[j]);
+    for (final keys in fingerKeyMap.values) {
+      for (final key1 in keys) {
+        for (final key2 in keys) {
+          if (key1 != key2) possibleSfbs.add(key1 + key2);
         }
       }
     }
-    possibleSfbs
-        .removeWhere((element) => element.split('').toSet().length == 1);
     return possibleSfbs.toSet().toList();
   }
 }

@@ -465,4 +465,90 @@ void main() {
       });
     });
   });
+
+  group('get top ten sfb', () {
+    group('when corpus is abcdefghi', () {
+      final frequency = Frequency('abcdefghi');
+      test(
+        'when layout is [[a, b]], fingerIdMap is [[0, 0]], '
+        'output should be ',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b'],
+            ], [
+              [1, 1],
+            ], [
+              [0, 0],
+            ]),
+            frequency,
+          );
+          expect(analysis.topSfb, equals({}));
+        },
+      );
+
+      test(
+        'when layout is [[a, b], [c, d]], fingerIdMap is [[0, 0], [1, 1]], '
+        'output should be ',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b'],
+              ['c', 'd']
+            ], [
+              [1, 1],
+              [1, 1]
+            ], [
+              [0, 0],
+              [1, 1]
+            ]),
+            frequency,
+          );
+          expect(analysis.topSfb, equals({'ab': 0.125, 'cd': 0.125}));
+        },
+      );
+
+      test(
+        'when layout is [[a, b], [c, d]], fingerIdMap is [[0, 0], [1, 1]], '
+        'output should be {ab: 0.125, cd: 0.125}',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b'],
+              ['c', 'd']
+            ], [
+              [1, 1],
+              [1, 1]
+            ], [
+              [0, 0],
+              [1, 1]
+            ]),
+            frequency,
+          );
+          expect(analysis.topSfb, equals({'ab': 0.125, 'cd': 0.125}));
+        },
+      );
+
+      test(
+        'when layout is [[a, b, c, d], [e, f, g, h]], '
+        'fingerIdMap is [[0, 1, 2, 3], [0, 1, 2, 3]], output should be ',
+        () {
+          final analysis = Analysis(
+            Config([
+              ['a', 'b', 'c', 'd'],
+              ['e', 'f', 'g', 'h']
+            ], [
+              [1, 1, 1, 1],
+              [1, 1, 1, 1]
+            ], [
+              [0, 0, 0, 0],
+              [1, 1, 1, 1],
+            ]),
+            frequency,
+          );
+          expect(analysis.topSfb, equals({'ab': 0.125, 'cd': 0.125}));
+        },
+      );
+    });
+  });
 }
